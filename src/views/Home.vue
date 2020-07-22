@@ -5,7 +5,6 @@
 </template>
 
 <script>
-// @ is an alias to /src
 import PostsList from "@/components/PostsList.vue";
 
 export default {

@@ -3,10 +3,14 @@
     <div class="content" v-if="this.token">
       <div id="nav">
         <router-link to="/">Home</router-link> |
-        <router-link to="/user/id">User</router-link> |
-        <router-link to="/logout">Logout</router-link>
+        <router-link to="/user">User</router-link> |
+        <button class="button" v-on:click="logout">Logout</button>
       </div>
-      <router-view v-bind:postsList="allPosts" :user="this.user" />
+      <router-view
+        v-bind:postsList="allPosts"
+        :user="this.user"
+        :token="this.token"
+      />
     </div>
     <div v-else>
       <Login v-on:submit-handler="submitHandler" :postsList="allPosts" />
@@ -34,15 +38,26 @@ export default {
     async submitHandler(email) {
       const users = await getUsers();
       this.user = users.find((us) => us.email === email);
-      this.user ? (this.token = true) : (this.errorMessage = true);
+      if (this.user) {
+        localStorage.setItem("token", true);
+        localStorage.setItem("user", JSON.stringify(this.user));
+        this.token = localStorage.getItem("token");
+      } else {
+        this.errorMessage = !this.errorMessage;
+      }
     },
+    logout() {
+      localStorage.setItem("token", "");
+      this.token = localStorage.getItem("token");
+    },
+
   },
 
   computed: mapGetters(["allPosts"]),
 
   data() {
     return {
-      token: '',
+      token: localStorage.getItem("token"),
       user: null,
       errorMessage: false,
     };
@@ -62,6 +77,12 @@ export default {
 .content {
   width: 60%;
   margin: 0 auto;
+}
+
+.button {
+  border: none;
+  background: none;
+  cursor: pointer;
 }
 
 #besties {

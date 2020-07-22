@@ -1,6 +1,6 @@
 <template>
   <h3>
-    <a v-bind:href="url">{{ postInfo.title }}</a>
+    <a :href="url">{{ postInfo.title }}</a>
   </h3>
 </template>
 <script>
@@ -11,3 +11,8 @@ export default {
   },
 };
 </script>
+<style>
+a {
+  text-decoration: none;
+}
+</style>

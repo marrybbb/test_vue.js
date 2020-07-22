@@ -1,5 +1,5 @@
 <template>
-  <p><a href="/userProfile">User Profile</a></p>
+  <p></p>
 </template>
 <script>
 export default {
